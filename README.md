@@ -1,11 +1,9 @@
 
-![cover_photo](./images/Picture1.jpg)
+![cover_photo](./OnlineRetailStore/images/Picture1.jpg)
 
 # Online Retail Store
 
 The idea of the project is to perform forecasting analytics and derive recommendations for the stocking the goods and staffing to meet the future demands. Based on the time of the year,month and day of the year.
-
-
 
 ## Introduction
 
@@ -41,7 +39,70 @@ In this process, I superfically analyzed the data inorder to understand what for
 
 In this step our goal is to further analyze and take a detailed look at the data presented to us. I try and look at which products are most bought from the store and how the price distribution of different products in the store. My further analysis included visualizing the sales pattern in different weeknumbers, days in a month and different hours of the day. I discovered that only 1% of the orders belonged to rest of the 42 countries. ~820k orders belonged to UK and so the exploratory analysis and cleaning activities were performed separated based on UK and the rest of the countries together. 
 
- 
+ ![](./OnlineRetailStore/images/Weekorders.png)
+
+From the above graph we can see that majority of the collections were performed on Thursday by the store followed by Tuesday. 
+Below I look at the orders placed based on different timeframes and can see a significant jump towards the last quarter of the year (especially during October and November). This could be probably associated with holiday season (Christmas) coming in December. To enhance our backing, I have also incorporated the UK holiday list since that contains most of the transactions
+
+
+### Statistical Testing 
+
+Performing Statistical test to back our hypothesis. The null hypothesis is that there isn’t any difference in the sales pattern across adjacent months and the vica versa for alternative hypothesis. After the statistical testing it was clear that we couldn’t reject the null hypothesis since there wasn’t any difference in other months except for Oct-Nov.
+
+![](./OnlineRetailStore/images/Stattest.png)
+
+Performing Statistical test to back our hypothesis. The null hypothesis is that there isn’t any difference in the sales pattern across adjacent months and the vica versa for alternative hypothesis. After the statistical testing it was clear that we couldn’t reject the null hypothesis since there wasn’t any difference in other months except for Oct-Nov.
+
+![](./OnlineRetailStore/images/StatTestResults.png)
+
+My exploratory analysis was concluded with featuring engineering techniques which included adding different columns to the original dataset so that it can used for training the model more efficiently
+
+
+### Feature Engineering & Predictve Power Score(PPS)
+
+In this using feature engineering approach and based on the data analyzed. I created multiple columns which is used for feeding into the Machine Leanring algorithm. 
+
+•	Total amount of sales done in a day
+•	Unique orders per day
+•	Average amount of collections per day
+•	Pre 7 and Pre 30 days orders 
+•	Is_holiday
+•	Marking any outlier sales_boost received on a particular day.
+
+This ended with a Predicitve Power score (PPS) which is very good in finding out non-linear relationships amongs different columns which wouldn’t be achieved in a regular correlational matrix.
+
+![](./OnlineRetailStore/images/PPS.png)
+
+In order to achieve our goal we select the columns which are highly related to our predictor variable ‘Post_30_orders’. We can see a significant difference in the way how our columns are related across 2 data subsets.
+
+## Pre-Processing
+
+In this process we handle the pre modeling by feeding the relevant columns to pycaret regressor to predict the best available outcomes. Since the dataset has a wide range of categorical variables, it was excluded from the features. The dataset consists of 4646 unique items and would lead to a huge list of columns based on one-hot encoding. The test size was set to 20% of the entire data. Pycaret setup was done on
+ numeric_features - ['counts', 'TotalPrice', 'Average_Price', 'Pre_wk_orders','Pre_30_orders',Month','Year', 'Day', 'Weeknumber']
+
+![](./OnlineRetailStore/images/Pycaret.png)
+
+From the above pycaret regressor techniques we can most certainly say that Tree based Regressor performed the best for our initial process. However, when the same trained model was applied on Remaining Countries dataset it performed poorly and it is directly associated with the relationship between the columns with Post_30_orders. Further optimization techniques are carried out in the modeling section. 
+
+## Modeling
+
+In this section we are going to use RandomForestRegressor (RF) as our base model for predicting Post_30_orders as that is the ML model that gave the best base results. However, to further improve and better train the model we are going to use different hyperparameter tuning to find the best estimators for the RF to get the lowest RSME error. 
+After using the best estimators, we get a perfect RMSE score on the UK dataset. I validated the model with different random states as well inorder ensure that the scores are same as what I received from the previous approach.
+
+However, the same was not true for NonUK dataset. I can see that there is a high RMSE score and proves that the model is not good enough to predict on different dataset.
+
+This is because the model is biased due to high number of records in the UK datasubset. 
+Inorder to remove this bias I am going to combine both the datasets (UK and NonUK) and use a Voting regressor that fits several base regressors, each on the whole dataset. Then it averages the individual predictions to form a final prediction.
+
+This combined model is now effective in accurately predicting the data from both the subsets with high accuracy and can be seen since when I compare the R2 score of the individual RF model with that to the output of the Voting Regressor. 
+
+![](./OnlineRetailStore/images/Result.png)
+
+The below R2 score is seen when we predict it on NonUK dataset using the VotingRegressor. 
+
+![](./OnlineRetailStore/images/FinalResult.png)
+
+This shows that there has been a tremendous improvement in the output. 
 
 
 Project Organization
