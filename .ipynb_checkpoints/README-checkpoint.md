@@ -27,21 +27,7 @@ A gift retail store, which has majority of customers as wholesalers. We want to 
 
 ## Data Insights and Cleaning
 
-In this process, I superfically analyzed the data inorder to understand what format the data is going to be and which changes are supposed to be made. The dataset contains approximately 1.06 million records for the transactions between 1/12/2009 and 9/12/2011. Our gift retail store received orders from almost 42 other countries apart from UK and served 4646 unique gift items on sale.
 
-* **Problem 1:** The data contained records with (-ve) quantity which was associated with the returns for the order items or cancelled invoices and there were null customerId. **Solution:-** Drop records which belongs to returns or cancellation. As it would be a noise inorder for performing the forecasting.
-
-* **Problem 2:** A few of the records had price set as 0 incorrectly. **Solution:-** Compute the median prices for the items based on their category,
-
-* **Problem 3:** The dataset contained almost 90% of orders coming in from UK and only 10% which belonged to rest of the 42 countries. **Solution:-** Split the dataset into 2 different datasets - UK and Non-UK dataset. 
-
-* **Problem 4:** CustomerId is null for almost 23% of the records. Since there was no associated customer information. It was best to drop these columns. 
-
-## Exploratory Data analysis
-
-In this step our goal is to further analyze and take a detailed look at the data presented to us. I try and look at which products are most bought from the store and how the price distribution of different products in the store. My further analysis included visualizing the sales pattern in different weeknumbers, days in a month and different hours of the day. I discovered that only 1% of the orders belonged to rest of the 42 countries. ~820k orders belonged to UK and so the exploratory analysis and cleaning activities were performed separated based on UK and the rest of the countries together. 
-
- 
 
 
 Project Organization
